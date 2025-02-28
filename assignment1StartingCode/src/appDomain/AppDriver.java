@@ -20,7 +20,7 @@ public class AppDriver
 		// read data from a text file
 			
 		
-		// arg has to have 2 argumetns and start with -f - Max L
+		// arg has to have 2 arguments and start with -f - Max L
 	    if (args.length < 2 || !args[0].equals("-f")) {
             return;
         };

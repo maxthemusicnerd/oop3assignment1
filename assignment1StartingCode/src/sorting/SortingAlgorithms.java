@@ -75,5 +75,17 @@ public class SortingAlgorithms {
             heapify(array, n, largest, comparator);
         }
     }
+    
+    public static <T> void bubbleSort(T[] array, Comparator<T> comparator) {
+        BubbleSort.sort(array, comparator);
+    }
+    
+    public static <T> void selectionSort(T[] array, Comparator<T> comparator) {
+        SelectionSort.sort(array, comparator);
+    }
+    
+    public static <T> void mergeSort(T[] array, Comparator<T> comparator) {
+        MergeSort.sort(array, comparator);
+    }
 }
 
