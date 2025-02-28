@@ -55,7 +55,7 @@ public class SortingApp {
             case "s": SelectionSort.sort(shapes, comparator); break;
             case "i": InsertionSort.sort(shapes, comparator); break;
             case "m": MergeSort.sort(shapes, comparator); break;
-            case "q": QuickSort.quickSort(shapes, 0, shapes.length - 1, comparator); break;
+            case "q": QuickSort.quickSort(null, 0, 0, null); break;
             case "z": HeapSort.sort(shapes, comparator); break;
             default:
                 System.out.println("Oopa! Invalid sorting algorithm.Please use these following Algorithm Options:  b, s, i, m, q, or z.");
