@@ -2,7 +2,6 @@ package appDomain;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.Comparator;
 import java.util.Scanner;
 import shapes.*;
@@ -19,14 +18,17 @@ public class AppDriver
 	    
 	
     public static void main(String[] args) {
+        System.out.println("🔄 Program started...");
+
         if (args.length < 3) {
-            System.out.println("Usage: java -jar Sort.jar -f <filename> -T <sortType> -S <sortAlgorithm>");
+            System.out.println("Usage: java -jar Sort.jar -f <filename> -t <sortType> -s <sortAlgorithm>");
             return;
         }
 
         String filename = null;
 
         // Parse arguments properly
+        System.out.println("📥 Parsing command-line arguments...");
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "-f":
@@ -39,30 +41,34 @@ public class AppDriver
                     if (i + 1 < args.length) sortAlgorithm = args[++i].toLowerCase();
                     break;
                 default:
-                    System.out.println("Invalid argument: " + args[i]);
+                    System.out.println("❌ Invalid argument: " + args[i]);
                     return;
             }
         }
 
+        System.out.println("📁 Filename: " + filename);
+        System.out.println("🔢 Sort Type: " + sortType);
+        System.out.println("⚙️ Sort Algorithm: " + sortAlgorithm);
+
         // Ensure all required arguments are provided
         if (filename == null || sortType == null || sortAlgorithm == null) {
-            System.out.println("Missing required arguments. Usage: java -jar Sort.jar -f <filename> -T <sortType> -S <sortAlgorithm>");
+            System.out.println("❌ Missing required arguments. Usage: java -jar Sort.jar -f <filename> -t <sortType> -s <sortAlgorithm>");
             return;
         }
-        
+
+        System.out.println("📂 Attempting to open file: res/" + filename);
         File inputFile = new File("res/" + filename);
         if (!inputFile.exists()) {
-            System.err.println("Error: File not found at " + inputFile.getAbsolutePath());
+            System.err.println("❌ Error: File not found at " + inputFile.getAbsolutePath());
             return;
         }
-
-
-
+        System.out.println("✅ File found! Processing...");
 
         try (Scanner input = new Scanner(inputFile)) {
             if (input.hasNextLine()) {
                 MAX_SHAPES = Integer.parseInt(input.nextLine());
                 shapes = new Shape[MAX_SHAPES];
+                System.out.println("📊 Max shapes: " + MAX_SHAPES);
             }
 
             while (input.hasNextLine() && shapeCount < MAX_SHAPES) {
@@ -71,26 +77,31 @@ public class AppDriver
                     Shape shape = parseShape(line);
                     shapes[shapeCount++] = shape;
                 } catch (IllegalArgumentException e) {
-                    System.err.println("Skipping invalid shape: " + line);
+                    System.err.println("⚠️ Skipping invalid shape: " + line);
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + filename);
+            System.err.println("❌ File not found: " + filename);
             return;
         }
 
+        System.out.println("✅ Successfully loaded " + shapeCount + " shapes.");
+        
         // Initialize Comparator
+        System.out.println("🔍 Initializing sorting comparator...");
         Comparator<Shape> comparator;
         switch (sortType) {
             case "v": comparator = new ShapeVolumeComparator(); break;
             case "h": comparator = Comparator.naturalOrder(); break;
             case "a": comparator = new ShapeBaseAreaComparator(); break;
             default:
-                System.out.println("Oops! Invalid sorting type. Use: v (volume), h (height), or a (base area).");
+                System.out.println("❌ Oops! Invalid sorting type. Use: v (volume), h (height), or a (base area).");
                 return;
         }
+        System.out.println("✅ Comparator initialized for " + sortType);
 
         // Perform Sorting
+        System.out.println("⏳ Sorting started using " + sortAlgorithm + "...");
         long startTime = System.nanoTime();
         switch (sortAlgorithm) {
             case "b": BubbleSort.bubbleSort(shapes, comparator); break;
@@ -100,22 +111,49 @@ public class AppDriver
             case "q": QuickSort.quickSort(shapes, 0, shapes.length - 1, comparator); break;
             case "z": HeapSort.heapSort(shapes, comparator); break;
             default:
-                System.out.println("Oops! Invalid sorting algorithm. Use: b, s, i, m, q, or z.");
+                System.out.println("❌ Oops! Invalid sorting algorithm. Use: b, s, i, m, q, or z.");
                 return;
         }
         long endTime = System.nanoTime();
+        
+        
 
-        System.out.printf("Sorting took %.3f milliseconds.%n", (endTime - startTime) / 1e6);
+        // Print Sorted Shapes
         printSortedShapes(shapes);
+        System.out.printf("Sorting completed in %.3f milliseconds.%n", (endTime - startTime) / 1e6);
+
     }
+
 
 	
     private static void printSortedShapes(Shape[] shapes) {
-        System.out.println("Sorted Shapes:");
-        for (Shape shape : shapes) {
-            System.out.println(shape);
+        System.out.println("Sorted Shapes Summary:\n");
+
+        // Print the first shape
+        System.out.println("First: " + formatShape(shapes[0]));
+
+        // Print every 1000th shape
+        for (int i = 1000; i < shapes.length; i += 1000) {
+            System.out.println(i + "th: " + formatShape(shapes[i]));
         }
+
+        // Print the last shape
+        System.out.println("Last: " + formatShape(shapes[shapes.length - 1]));
     }
+
+    // Helper method to format the shape output based on sorting type
+    private static String formatShape(Shape shape) {
+        if (sortType.equals("v")) {
+            return shape + " Volume: " + shape.calcVolume();
+        } else if (sortType.equals("h")) {
+            return shape + " Height: " + shape.getHeight();
+        } else if (sortType.equals("a")) {
+            return shape + " Base Area: " + shape.calcBaseArea();
+        }
+        return shape.toString(); // Default
+    }
+
+
 
 
 	
