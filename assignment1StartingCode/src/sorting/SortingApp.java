@@ -42,8 +42,21 @@ public class SortingApp {
                 System.out.println("Invalid sorting type. Use v (volume), h (height), or a (base area).");
                 return;
         }
+        
+        // Sort using selected algorithm
+        long startTime = System.nanoTime();
+        switch (sortAlgorithm) {
+            case "b": BubbleSort.sort(shapes, comparator); break;
+            case "s": SelectionSort.sort(shapes, comparator); break;
+            case "i": InsertionSort.sort(shapes, comparator); break;
+            case "m": MergeSort.sort(shapes, comparator); break;
+            case "q": QuickSort.quickSort(shapes, 0, shapes.length - 1, comparator); break;
+            case "z": HeapSort.sort(shapes, comparator); break;
+            default:
+                System.out.println("Invalid sorting algorithm. Use b, s, i, m, q, or z.");
+                return;
+        }
     }
-    
     
     private static Shape[] readShapesFromFile(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
