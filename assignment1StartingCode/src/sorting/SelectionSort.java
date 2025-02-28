@@ -3,7 +3,7 @@ package sorting;
 import java.util.Comparator;
 
 public class SelectionSort {
-    public static <T> void sort(T[] array, Comparator<T> comparator) {
+    public static <T> void selectionSort(T[] array, Comparator<T> comparator) {
         int n = array.length;
         
         for (int i = 0; i < n - 1; i++) {

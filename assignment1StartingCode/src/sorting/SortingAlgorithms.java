@@ -77,15 +77,15 @@ public class SortingAlgorithms {
     }
     
     public static <T> void bubbleSort(T[] array, Comparator<T> comparator) {
-        BubbleSort.sort(array, comparator);
+        BubbleSort.bubbleSort(array, comparator);
     }
     
     public static <T> void selectionSort(T[] array, Comparator<T> comparator) {
-        SelectionSort.sort(array, comparator);
+        SelectionSort.selectionSort(array, comparator);
     }
     
     public static <T> void mergeSort(T[] array, Comparator<T> comparator) {
-        MergeSort.sort(array, comparator);
+        MergeSort.mergeSort(array, comparator);
     }
 }
 

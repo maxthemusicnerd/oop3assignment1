@@ -51,10 +51,10 @@ public class SortingApp {
         // Sort using selected algorithm
         long startTime = System.nanoTime();
         switch (sortAlgorithm) {
-            case "b": BubbleSort.sort(shapes, comparator); break;
-            case "s": SelectionSort.sort(shapes, comparator); break;
+            case "b": BubbleSort.bubbleSort(shapes, comparator); break;
+            case "s": SelectionSort.selectionSort(shapes, comparator); break;
             case "i": InsertionSort.insertionSort(shapes, comparator); break;
-            case "m": MergeSort.sort(shapes, comparator); break;
+            case "m": MergeSort.mergeSort(shapes, comparator); break;
             case "q": QuickSort.quickSort(null, 0, 0, null); break;
             case "z": HeapSort.heapSort(shapes, comparator); break;
             default:

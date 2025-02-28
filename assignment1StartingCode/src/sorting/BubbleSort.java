@@ -3,7 +3,7 @@ package sorting;
 import java.util.Comparator;
 
 public class BubbleSort {
-    public static <T> void sort(T[] array, Comparator<T> comparator) {
+    public static <T> void bubbleSort(T[] array, Comparator<T> comparator) {
         int n = array.length;
         boolean swapped;
         

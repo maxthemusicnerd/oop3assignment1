@@ -3,7 +3,7 @@ package sorting;
 import java.util.Comparator;
 
 public class MergeSort {
-    public static <T> void sort(T[] array, Comparator<T> comparator) {
+    public static <T> void mergeSort(T[] array, Comparator<T> comparator) {
         if (array.length < 2) return;
         int mid = array.length / 2;
         T[] left = (T[]) new Object[mid];
@@ -12,8 +12,8 @@ public class MergeSort {
         System.arraycopy(array, 0, left, 0, mid);
         System.arraycopy(array, mid, right, 0, array.length - mid);
         
-        sort(left, comparator);
-        sort(right, comparator);
+        mergeSort(left, comparator);
+        mergeSort(right, comparator);
         
         merge(array, left, right, comparator);
     }
