@@ -27,6 +27,11 @@ public class SortingApp {
             else if (arg.startsWith("-t")) sortType = arg.substring(2);
             else if (arg.startsWith("-s")) sortAlgorithm = arg.substring(2);
         }
+
+        if (fileName == null || sortType == null || sortAlgorithm == null) {
+            System.out.println("random null error");
+            return;
+        }
         
         // Read shapes from file
         Shape[] shapes = readShapesFromFile(fileName);
@@ -39,7 +44,7 @@ public class SortingApp {
             case "h": comparator = Comparator.naturalOrder(); break;
             case "a": comparator = new ShapeBaseAreaComparator(); break;
             default:
-                System.out.println("Invalid sorting type. Use v (volume), h (height), or a (base area).");
+                System.out.println("Oops! Invalid sorting type.Please use: v (volume), h (height), or a (base area).");
                 return;
         }
         
@@ -53,9 +58,14 @@ public class SortingApp {
             case "q": QuickSort.quickSort(shapes, 0, shapes.length - 1, comparator); break;
             case "z": HeapSort.sort(shapes, comparator); break;
             default:
-                System.out.println("Invalid sorting algorithm. Use b, s, i, m, q, or z.");
+                System.out.println("Oopa! Invalid sorting algorithm.Please use these following Algorithm Options:  b, s, i, m, q, or z.");
                 return;
         }
+        long endTime = System.nanoTime();
+        
+        // Output results
+        System.out.printf("Sorting only took %.3f milliseconds.%nA new record!%n", (endTime - startTime) / 1e6);
+        printSortedShapes(shapes);
     }
     
     private static Shape[] readShapesFromFile(String fileName) {
@@ -78,14 +88,21 @@ public class SortingApp {
                     case "PentagonalPrism": shapes[i] = new PentagonalPrism(h, rOrEdge); break;
                     case "OctagonalPrism": shapes[i] = new OctagonalPrism(h, rOrEdge); break;
                     default:
-                        System.out.println("Unknown shape type: " + type);
+                        System.out.println("Oops! Unknown shape type: " + type);
                         return null;
                 }
             }
             return shapes;
         } catch (IOException | NumberFormatException e) {
-            System.out.println("Error reading file: " + e.getMessage());
+            System.out.println("Oops! Error reading file: " + e.getMessage());
             return null;
         }
+    }
+    private static void printSortedShapes(Shape[] shapes) {
+        System.out.println("First: " + shapes[0]);
+        for (int i = 1000; i < shapes.length; i += 1000) {
+            System.out.println("Every 1000th: " + shapes[i]);
+        }
+        System.out.println("Last: " + shapes[shapes.length - 1]);
     }
 }
