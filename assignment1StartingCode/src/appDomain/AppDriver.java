@@ -26,23 +26,20 @@ public class AppDriver
         }
 
         String filename = null;
-
+        
         // Parse arguments properly
         System.out.println("📥 Parsing command-line arguments...");
-        for (int i = 0; i < args.length; i++) {
-            switch (args[i]) {
-                case "-f":
-                    if (i + 1 < args.length) filename = args[++i];
-                    break;
-                case "-t":
-                    if (i + 1 < args.length) sortType = args[++i].toLowerCase();
-                    break;
-                case "-s":
-                    if (i + 1 < args.length) sortAlgorithm = args[++i].toLowerCase();
-                    break;
-                default:
-                    System.out.println("❌ Invalid argument: " + args[i]);
-                    return;
+        for (String arg : args) {
+        	String lowerArg = arg.toLowerCase();
+            if (lowerArg.startsWith("-f")) {
+                filename = arg.substring(2);
+            } else if (lowerArg.startsWith("-t")) {
+                sortType = arg.substring(2);
+            } else if (lowerArg.startsWith("-s")) {
+                sortAlgorithm = arg.substring(2);
+            } else {
+                System.out.println("❌ Invalid argument: " + arg);
+                return;
             }
         }
 
