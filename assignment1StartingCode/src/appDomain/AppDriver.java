@@ -18,7 +18,7 @@ public class AppDriver
 	    
 	
     public static void main(String[] args) {
-        System.out.println("🔄 Program started...");
+        System.out.println(" Program started...");
 
         if (args.length < 3) {
             System.out.println("Usage: java -jar Sort.jar -f <filename> -t <sortType> -s <sortAlgorithm>");
@@ -28,7 +28,7 @@ public class AppDriver
         String filename = null;
         
         // Parse arguments properly
-        System.out.println("📥 Parsing command-line arguments...");
+        System.out.println(" Parsing command-line arguments...");
         for (String arg : args) {
         	String lowerArg = arg.toLowerCase();
             if (lowerArg.startsWith("-f")) {
@@ -38,34 +38,34 @@ public class AppDriver
             } else if (lowerArg.startsWith("-s")) {
                 sortAlgorithm = arg.substring(2);
             } else {
-                System.out.println("❌ Invalid argument: " + arg);
+                System.out.println(" Invalid argument: " + arg);
                 return;
             }
         }
 
-        System.out.println("📁 Filename: " + filename);
-        System.out.println("🔢 Sort Type: " + sortType);
-        System.out.println("⚙️ Sort Algorithm: " + sortAlgorithm);
+        System.out.println(" Filename: " + filename);
+        System.out.println(" Sort Type: " + sortType);
+        System.out.println(" Sort Algorithm: " + sortAlgorithm);
 
         // Ensure all required arguments are provided
         if (filename == null || sortType == null || sortAlgorithm == null) {
-            System.out.println("❌ Missing required arguments. Usage: java -jar Sort.jar -f <filename> -t <sortType> -s <sortAlgorithm>");
+            System.out.println(" Missing required arguments. Usage: java -jar Sort.jar -f <filename> -t <sortType> -s <sortAlgorithm>");
             return;
         }
 
-        System.out.println("📂 Attempting to open file: res/" + filename);
+        System.out.println(" Attempting to open file: res/" + filename);
         File inputFile = new File("res/" + filename);
         if (!inputFile.exists()) {
-            System.err.println("❌ Error: File not found at " + inputFile.getAbsolutePath());
+            System.err.println(" Error: File not found at " + inputFile.getAbsolutePath());
             return;
         }
-        System.out.println("✅ File found! Processing...");
+        System.out.println(" File found! Processing...");
 
         try (Scanner input = new Scanner(inputFile)) {
             if (input.hasNextLine()) {
                 MAX_SHAPES = Integer.parseInt(input.nextLine());
                 shapes = new Shape[MAX_SHAPES];
-                System.out.println("📊 Max shapes: " + MAX_SHAPES);
+                System.out.println(" Max shapes: " + MAX_SHAPES);
             }
 
             while (input.hasNextLine() && shapeCount < MAX_SHAPES) {
@@ -74,31 +74,31 @@ public class AppDriver
                     Shape shape = parseShape(line);
                     shapes[shapeCount++] = shape;
                 } catch (IllegalArgumentException e) {
-                    System.err.println("⚠️ Skipping invalid shape: " + line);
+                    System.err.println(" Skipping invalid shape: " + line);
                 }
             }
         } catch (FileNotFoundException e) {
-            System.err.println("❌ File not found: " + filename);
+            System.err.println(" File not found: " + filename);
             return;
         }
 
-        System.out.println("✅ Successfully loaded " + shapeCount + " shapes.");
+        System.out.println(" Successfully loaded " + shapeCount + " shapes.");
         
         // Initialize Comparator
-        System.out.println("🔍 Initializing sorting comparator...");
+        System.out.println(" Initializing sorting comparator...");
         Comparator<Shape> comparator;
         switch (sortType) {
             case "v": comparator = new ShapeVolumeComparator(); break;
             case "h": comparator = Comparator.naturalOrder(); break;
             case "a": comparator = new ShapeBaseAreaComparator(); break;
             default:
-                System.out.println("❌ Oops! Invalid sorting type. Use: v (volume), h (height), or a (base area).");
+                System.out.println(" Oops! Invalid sorting type. Use: v (volume), h (height), or a (base area).");
                 return;
         }
-        System.out.println("✅ Comparator initialized for " + sortType);
+        System.out.println(" Comparator initialized for " + sortType);
 
         // Perform Sorting
-        System.out.println("⏳ Sorting started using " + sortAlgorithm + "...");
+        System.out.println(" Sorting started using " + sortAlgorithm + "...");
         long startTime = System.nanoTime();
         switch (sortAlgorithm) {
             case "b": BubbleSort.bubbleSort(shapes, comparator); break;
@@ -108,7 +108,7 @@ public class AppDriver
             case "q": QuickSort.quickSort(shapes, 0, shapes.length - 1, comparator); break;
             case "z": HeapSort.heapSort(shapes, comparator); break;
             default:
-                System.out.println("❌ Oops! Invalid sorting algorithm. Use: b, s, i, m, q, or z.");
+                System.out.println(" Oops! Invalid sorting algorithm. Use: b, s, i, m, q, or z.");
                 return;
         }
         long endTime = System.nanoTime();
